@@ -41,9 +41,8 @@ else
   fi
 fi
 
-perl -i -pe"s/^[^#]?(\/?)(?=dist)/# /g" .gitignore
-
 [ -r .git ] || git init
+[ -f .gitignore ] && perl -i -pe"s/^[^#]?(\/?)(?=dist)/# /g" .gitignore
 npm run build
 git add dist && git commit -m "Initial dist subtree commit"
 git branch | grep gh-pages || git branch gh-pages
