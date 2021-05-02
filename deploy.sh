@@ -44,10 +44,10 @@ fi
 perl -i -pe"s/^[^#]?(\/?)(?=dist)/# /g" .gitignore
 
 [ -r .git ] || git init
-git remote add origin "$REPO_URL"
-git branch | grep gh-pages || git branch gh-pages
 npm run build
 git add dist && git commit -m "Initial dist subtree commit"
+git branch | grep gh-pages || git branch gh-pages
+git remote add origin "$REPO_URL"
 git subtree push --prefix dist origin gh-pages
 
 echo '-DONE.'
