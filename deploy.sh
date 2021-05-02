@@ -6,6 +6,8 @@
   https://medium.com/@Roli_Dori/deploy-vue-cli-3-project-to-github-pages-ebeda0705fbd
 DESC
 
+set -e
+
 read -p 'Before the next step, Please create a new repository on your github then copy the repositoey URL, It is useful for you on the next step! (Press any key to continue)'
 
 read -p "Enter your remote repository URL (required)：" REPO_URL
@@ -14,9 +16,6 @@ if [ -z "$REPO_URL" ]; then
   echo "-WARN: Repository URL is required"
   exit 1
 fi
-
-git init
-git remote add origin "$REPO_URL"
 
 REPO_NAME=$(cut -d'/' -f5 <<< \'"$REPO_URL"\' | awk -F. '{print $1}')
 CONFIG_FILE=vue.config.js
@@ -28,8 +27,6 @@ for JS_FILE in $(ls *.js)
       configfileExists=TRUE
     fi
   done
-
-echo 是否有 "$CONFIG_FILE"： "$configfileExists"
 
 if [[ "$configfileExists" = "FALSE" ]]; then
   echo "module.exports = {\n  publicPath: '"$REPO_NANE"'\n}" > "$CONFIG_FILE"
@@ -46,7 +43,9 @@ fi
 
 perl -i -pe"s/^[^#]?(\/?)(?=dist)/# /g" .gitignore
 
-git branch gh-pages
+[ -r .git ] || git init
+git remote add origin "$REPO_URL"
+git branch | grep gh-pages || git branch gh-pages
 npm run build
 git add dist && git commit -m "Initial dist subtree commit"
 git subtree push --prefix dist origin gh-pages
