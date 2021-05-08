@@ -1,14 +1,14 @@
 #!/bin/sh
 
 << DESC
-  A script for Vue3 project to quick deploying on github pages.
-  The process is referenced from the this page:
+  This is a script for Vue CLI project to quick deploy to github pages service.
+  Program flow was inspired from article below.
   https://medium.com/@Roli_Dori/deploy-vue-cli-3-project-to-github-pages-ebeda0705fbd
 DESC
 
 set -e
 
-read -p 'Before the next step, Please create a new repository on your github then copy the repositoey URL, It is useful for you on the next step! (Press any key to continue)'
+read -p -t 10 'Before the next step, Please create a new repository on your github then copy the repositoey URL, It is useful for you on the next step! (Press any key to continue)'
 
 read -p "Enter your remote repository URL (required)：" REPO_URL
 
